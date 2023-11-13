@@ -2,46 +2,152 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container-fluid position-absolute top-0 start-0 text-center border border-dark landscape" style="height: 597px; background-color: #1680D0; ">
-    <div class="row">
-        <div class="col bg-light border border-dark" style="height: 50px;">
-            Header / LOGO
+<div class="container-fluid position-absolute top-0 start-0 text-center border border-dark landscape" style="height: 955px; background-color: #0A62C6; ">
+    <div class="row" style="height: 50px;">
+        <div class="col bg-white border border-dark">
+            <img src="https://www.senior-thailand.com/Content/images/logo-Color.png" style="width:160px;height:50px;">
+        </div>
+        <div class="col-8 bg-white border border-dark">
+            <h1>DELIVERY</h1>
+        </div>
+        <div class="col bg-white border border-dark">
+            <img src="https://lh6.googleusercontent.com/wdupdmQPUahdQ1gR72L6OlKBzig2h939Ah4LIkFaLEuq24C6Ej69EMW0KB_0P4PbfVJMsQ=w16383" style="width:100px;height:50px;">
         </div>
     </div>
-    <div class="row w-90 p-3 " style="background-color: #1680D0; height: 485px;">
-        <div class="col bg-light border border-dark" style="height: 485px;">
-            graph 1
+    <div class="row w-90 p-3 " style="background-color: #0A62C6; height: 903px; margin-top: 3px; margin-left: 8px; ">
+        <div class="col bg-white border border-dark" style="height: 795px; border-radius: 10px; margin-top: 11px;">
+            <div class="container-lg" style="display: flex; flex-direction: column; align-items: flex-start; margin-top: 12px;">
+                <h5 class="font-weight-bold" style="margin-left: 7px;">Key: On Time Delivery</h5>
+                <div style="display: flex; align-items: center;">
+                    <h5 class="font-weight-bold" style="margin-right: 5px; margin-left: 7px;">Year: &nbsp;</h5>
+                    <select class="form-control" name="Year" id="Year" style="width: 80px;">
+                        <option value="" disabled selected>Year</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col " style=" height: 755px; margin-top: 1px; ">
+                    <div style=" height: 695px;" id="containerchart"></div>
+            </div>
         </div>
-        <div class="col border border-dark" style="background-color: #1680D0; height: 485px;">
-            <div class="row border border-dark" style=" margin-left: 1px; height: 30px; width:586px;">
-                <div class="col bg-light" style=" width:26px;">
-                    name
+        <div class="col" style="background-color: #0A62C6; height: 860px; ">
+            <div class="row" style=" margin-left: 12px; margin-right: 8px; height: 32px; width: 862px; margin-top: 11px;">
+                <div class="col-6 bg-white border border-dark" style="height: 32px;">
+                    <h5 class="font-weight-bold" style="margin-top: 3px;  ">TAT-IT ( Target: > 80% )</h5>
                 </div>
-                <div class="col ">
+                <div class="col-3 ">
                 </div>
-                <div class="col bg-light">
-                    date
+                <div class="col-3 bg-white border border-dark" style="height: 32px;">
+                    <p style="font-size: 0.84em; font-weight: bold; margin-top: 6px; ">Date : <span id="date"></span></p>
                 </div>
             </div>
-            <div class="col bg-light border border-dark" style="height: 225px; margin-top: 5px;">
-                graph 2
+            <div class="container-fluid">
+                <div id="bindShowData2">
+                </div>
             </div>
-            <div class="col bg-light border border-dark" style="height: 225px;">
-                graph 3
+            <div class="container-fluid">
+                <div id="bindShowData3">
+                </div>
             </div>
         </div>
     </div>
-    <div class="row position-absolute bottom-3 start-50 translate-middle-x" style="align-content: center; margin-top: 30px; width: 400px;">
-        <div class="col bg-light" style="width:200px; ">
-            baa
+    <div class="row" style="align-content: center; margin-top: -65px; margin-left: 25px; width: 1200px;">
+
+        <div class="col-2 bg-white border border-dark">
+            AREA :
         </div>
-        <div class="col bg-light" style="width:200px; ">
-            baa222
+        <div class="col-3 bg-white border border-dark">
+        </div>
+        <div class="col-1 ">
+        </div>
+        <div class="col-2 bg-white border border-dark">
+            OWNER :
+        </div>
+        <div class="col-3 bg-white border border-dark">
         </div>
     </div>
 </div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+@section Scripts {
+    <script>
+
+
+        $(document).ready(function () {
+            let today = new Date().toISOString().slice(0, 10);
+            let [year, month, day] = today.split('-');
+            let formattedDate = `${day}-${month}-${year}`;
+            document.getElementById("date").innerHTML = formattedDate;
+
+            $("#bindShowData2").load(`/Home/IndexTable2` + '?year=2023', function (statusTxt) {
+                if (statusTxt == "error") {
+                    alert("Error occurred during the process. Please contact the administrator");
+                }
+            });
+
+            //$("#bindShowData2").load(`/Home/IndexChart3?year=2023&mmonth=Sep`, function (statusTxt) {
+            //    if (statusTxt == "error") {
+            //        alert("Error occurred during the process. Please contact the administrator");
+            //    }
+            //});
+
+        });
+        /*chart*/
+        Highcharts.chart('containerchart', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '',
+                align: 'left'
+            },
+            subtitle: {
+                text: '',
+                align: 'left'
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                crosshair: true,
+                accessibility: {
+                    description: 'month'
+                }
+            },
+            yAxis: {
+                min: 0, max: 10,
+
+                title: {
+                    text: ''
+                },
+                tickInterval: 1
+            },
+            tooltip: {
+                valueSuffix: 'target'
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [
+
+                {
+                    name: 'result under target',
+                    data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, , ,],
+                    color: '#E40D0D'
+                }
+            ]
+        });
 
 
 
+    </script>
+
+}
 
 

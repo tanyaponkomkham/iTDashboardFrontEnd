@@ -45,9 +45,21 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Jsonize.Serializer.Json.Net": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
               "version": "[5.0.17, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
+            "bootstrap-select": {
+              "target": "Package",
+              "version": "[1.13.18, )"
             }
           },
           "imports": [
