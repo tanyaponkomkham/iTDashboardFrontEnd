@@ -1,0 +1,137 @@
+﻿<div class="col " style=" height: 750px; width: 650px; margin-top: 1px; ">
+        <div style=" height: 695px;" id="containerchart1"></div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+                type: "GET",
+                url: '/Home/IndexChart2',
+                cache: false,
+                data: {
+                year: '@TempData["Year3"]'
+                },
+                dataType: "json",
+                success: function (result) {
+                    BindCharttable2(result);
+            },
+
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                }
+            });
+
+    });
+
+
+    function BindCharttable2(serie) {
+        var _dataTarget = [];
+        var _tatTarget = [];
+        for (var i in serie) {
+
+            if (serie[i].tat > serie[i].target) {
+
+                var item = {
+                    name: serie[i].short_month,
+                    y: 1,
+                    target: serie[i].target,
+                    chart: 'Monthly',
+                    iyear: `@TempData["Year3"]`,
+                    imonth: serie[i].short_month,
+                };
+            } else {
+
+                var item = {
+                name: serie[i].short_month,
+                y: 0,
+                target: serie[i].target,
+                chart: 'Monthly',
+                iyear: `@TempData["Year3"]`,
+                imonth: serie[i].short_month,
+              };
+            }
+
+            _dataTarget.push(item);
+
+        }
+/*        console.log(_dataTarget);*/
+
+
+
+
+
+        Highcharts.chart('containerchart1', {
+            chart: {
+                type: 'column',
+
+            },
+            title: {
+                text: '',
+                align: 'left'
+            },
+            subtitle: {
+                text: '',
+                align: 'left'
+            },
+
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                crosshair: true,
+                accessibility: {
+                    description: 'month'
+                }
+            },
+            yAxis: {
+                min: 0, max: 10,
+
+                title: {
+                    text: ''
+                },
+                tickInterval: 1
+            },
+            tooltip: {
+                valueSuffix: 'target'
+            },
+            legend: {
+                enabled: true
+            },
+
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+
+            series: [{
+                type: 'column',
+                name: 'ผลงานต่ำกว่าเป้าหมาย (result under target)',
+                pointWidth: 30,
+                color: '#E40D0D',
+                data: _dataTarget,
+                borderWidth: 2,
+
+
+            }
+            ],
+            legend: {
+                align: 'left', //Legend (left, center, right)
+                verticalAlign: 'bottom', // Legend (top, middle, bottom)
+                layout: 'horizontal', // (horizontal, vertical)
+                itemStyle: {
+                    fontWeight: 'bold'
+                },
+                symbolRadius: 0
+
+            },
+
+
+        });
+    }
+
+
+
+
+
+
+</script>

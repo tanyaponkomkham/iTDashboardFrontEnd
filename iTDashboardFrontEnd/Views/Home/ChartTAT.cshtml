@@ -1,0 +1,414 @@
+﻿<div class="col bg-white custom-border" style="height: 370px; width: 660px; margin-top: 8px;">
+    <div style="height: 367px;" id="containerchart2"></div>
+</div>
+<div class="col bg-white custom-border" style="height: 370px; width: 660px; margin-top: 11px; " id="Chart3">
+    <div style="height: 367px;" id="containerchart3"></div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        loadChart();
+
+
+    });
+     function loadChart() {
+            $.ajax({
+                type: "GET",
+               url: `/Home/IndexChart2?year=${`@TempData["Year"]`}`,
+                dataType: "json",
+                data: {},
+                success: function (result) {
+                    BindChart(result, "Main");
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                }
+            }); // Removed the extra comma here
+
+          $.ajax({
+            type: "GET",
+             url: `/Home/IndexChart3?year=${`@TempData["Year"]`}&mmonth=${`@TempData["Month"]`}`,
+            dataType: "json",
+            data: {},
+                success: function (result) {
+                     var monthColor = getMonthColor(`@TempData["Month"]`);
+                    BindChart2(result, "Category", monthColor,`@TempData["Year"]`);
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                },
+            })
+         function getMonthColor(month) {
+             switch (month) {
+                 case "Jan":
+                     return '#FF5721';
+                 case "Feb":
+                     return '#FF7F50';
+                 case "Mar":
+                     return '#FF7D40';
+                 case "Apr":
+                     return '#FFC469';
+                 case "May":
+                     return '#FFA824';
+                 case "Jun":
+                     return '#FFFF7E';
+                 case "Jul":
+                     return '#FFFF00';
+                 case "Aug":
+                     return '#FFE303';
+                 case "Sep":
+                     return '#EEC900';
+                 case "Oct":
+                     return '#EE7621';
+                 case "Nov":
+                     return '#FF8C00';
+                 case "Dec":
+                     return '#EE4000';
+                 default:
+                     return getRandColor(false, 2);
+             }
+         }
+    }
+
+    function BindChart(serie, name, color) {
+
+        var _data = [];
+        var _tatTarget = [];
+        for (var i in serie) {
+            var itm = {
+                name: (name == "Main" ? serie[i].short_month : serie[i].category),
+                y: (name == "Main" ? serie[i].tat : serie[i].taTofCate),
+                target: serie[i].target,
+                chart: (name == "Main" ? 'Monthly' : 'Category'),
+                iyear: `@TempData["Year"]`,
+                imonth: serie[i].short_month,
+                drilldown: (name == "Main" ? true : false),
+                
+            }
+
+            _data.push(itm);
+            _tatTarget.push(serie[i].target);
+
+        }
+        
+  
+
+        Highcharts.chart('containerchart2', {
+            chart: {
+                type: 'column',
+                backgroundColor: '#FFFFFF',
+                borderColor: '#17202A',
+                borderWidth: 0,
+                className: 'dark-container',
+                plotBackgroundColor: '#F4F6F6',
+                plotBorderColor: '#A9CCE3',
+                plotBorderWidth: 1,
+                events: {
+                }
+            },
+            title: {
+                text: 'TAT - IT ' + (name == "Main" ? '' : serie[i].short_month) + ' (Target : <= ' + serie[i].target +' Calendar day)'
+            },
+            xAxis: {
+                type: 'category',
+
+                labels: {
+                    style: {
+                        color: 'black',
+                        fontWeight: 'bold',
+                        fontSize: '12px'
+
+                    }
+
+                },
+
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        fontSize: '15px',
+                        color: 'black'
+                    }
+                },
+
+            },
+            legend: {
+                itemStyle: {
+                    fontSize: '15px',
+                    font: '15pt Trebuchet MS, Verdana, sans-serif',
+                    color: '#8b8378'
+
+                }
+
+            },
+            yAxis: {
+                min: 0,
+                max: 50,
+                title: {
+                    text: 'Turnaround time of TSD(Calendar Day)'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || '#0A0A09'
+                    }
+                },
+
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + '<br/>' +
+                        this.series.name + ': ' + this.y + ' Days' + '<br/>' +
+                        'Total: ' + this.point.stackTotal + ' Days';
+                }
+            },
+            legend: {
+                enabled: true
+            },
+
+            plotOptions: {
+                series: {
+                    stacking: 'normal',
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: false
+                    },
+                    colorByPoint: true,
+                    point: {
+                        events: {
+                            click: function (e) {
+                                {
+                                    //Call table
+                                    if (e.point.chart == 'Monthly') {
+
+                                        GetCategoryChart(e.point.iyear, e.point.name, e.point.color, e.srcElement.attributes.fill.nodeValue);
+
+                                        //console.log(e);
+                                        //console.log(e.srcElement.attributes.fill.nodeValue);
+                                        //onClick(e.point.name, this.name, e.point.label);
+                                    }
+                                    else if (e.point.chart == 'Category') {
+
+                                        onClick(e.point.name, e.point.imonth, e.point.iyear);
+                                        //console.log(e.point.name);
+                                        // console.log(e.point.imonth);
+                                        //console.log(e.point.iyear);
+                                    }
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            credits: {
+                "enabled": true
+            },
+            series: [{
+                type: 'column',
+                name: 'TAT',
+                pointWidth: 30,
+                colors: [
+                    '#FF5721', '#FF7F50', '#FF7D40', '#FFC469', '#FFA824', '#FFFF7E',
+                    '#FFFF00', '#FFE303', '#EEC900', '#EE7621', '#FF8C00', '#EE4000'
+                ], 
+                colorByPoint: true,
+                data: _data,
+
+                borderWidth: 2,
+
+
+            }, {
+                type: 'spline',
+                name: 'Target',
+                data: _tatTarget,//_tatTarget,
+                marker: {
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                }
+            }]
+
+             
+        });
+
+
+        function GetCategoryChart(year,name, color) {
+            $.ajax({
+            type: "GET",
+                url: `/Home/IndexChart3?year=` + year + `&mmonth=` + name,
+            dataType: "json",
+            data: {},
+                success: function (result) {
+
+                    BindChart2(result, "Category", color, year);
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                },
+            })
+        }
+    }
+
+    function BindChart2(serie, name, color,year) {
+
+        var _data = [];
+        var _tatTarget = [];
+        for (var i in serie) {
+            var itm = {
+                name: (name == "Main" ? serie[i].short_month : serie[i].category),
+                y: (name == "Main" ? serie[i].tat : serie[i].taTofCate),
+                target: serie[i].target,
+                chart: (name == "Main" ? 'Monthly' : 'Category'),
+                iyear: year,
+                imonth: serie[i].short_month,
+                drilldown: (name == "Main" ? true : false),
+                color: color
+                
+            }
+
+            _data.push(itm);
+            _tatTarget.push(serie[i].target);
+
+        }
+
+        //console.log(_data);
+        //console.log(_tatTarget);
+
+        Highcharts.chart('containerchart3', {
+            chart: {
+                type: 'column',
+                backgroundColor: '#FFFFFF',
+                borderColor: '#17202A',
+                borderWidth: 0,
+                className: 'dark-container',
+                plotBackgroundColor: '#F4F6F6',
+                plotBorderColor: '#A9CCE3',
+                plotBorderWidth: 1,
+                events: {
+                }
+            },
+            title: {
+                text: 'TAT - IT ' + (name == "Main" ? '' : serie[i].short_month) + ' (Target : <= 25' +  ' Calendar day)'
+            },
+            xAxis: {
+                type: 'category',
+
+                labels: {
+                    style: {
+                        color: 'black',
+                        fontWeight: 'bold',
+                        fontSize: '12px'
+
+                    }
+
+                },
+
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        fontSize: '15px',
+                        color: 'black'
+                    }
+                },
+
+            },
+            legend: {
+                itemStyle: {
+                    fontSize: '15px',
+                    font: '15pt Trebuchet MS, Verdana, sans-serif',
+                    color: '#8b8378'
+
+                }
+
+            },
+            yAxis: {
+                min: 0,
+                max: 50,
+                title: {
+                    text: 'Turnaround time of TSD(Calendar Day)'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || '#0A0A09'
+                    }
+                },
+
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + '<br/>' +
+                        this.series.name + ': ' + this.y + ' Days' + '<br/>' +
+                        'Total: ' + this.point.stackTotal + ' Days';
+                }
+            },
+            legend: {
+                enabled: true
+            },
+
+            plotOptions: {
+                series: {
+                    stacking: 'normal',
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: false
+                    },
+                    colorByPoint: true,
+
+                }
+            },
+            credits: {
+                "enabled": true
+            },
+            series: [{
+                type: 'column',
+                name: 'TAT',
+                pointWidth: 30,
+                /*colorByPoint: true,*/
+                data: _data,
+
+                borderWidth: 2,
+
+
+            }, {
+                type: 'spline',
+                name: 'Target',
+                data: _tatTarget,//_tatTarget,
+                marker: {
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                }
+            }]
+
+
+
+
+        });
+
+
+        function GetCategoryChart(name, color) {
+            $.ajax({
+            type: "GET",
+                url: `/Home/IndexChart3?year=${`@TempData["Year"]`}&mmonth=` + name,
+            dataType: "json",
+            data: {},
+                success: function (result) {
+
+                    BindChart(result, "Category", null, 'containerchart3');
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                },
+            })
+        }
+    }
+
+
+
+</script>

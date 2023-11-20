@@ -2,44 +2,47 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container-fluid position-absolute top-0 start-0 text-center border border-dark landscape" style="height: 955px; background-color: #0A62C6; ">
-    <div class="row" style="height: 50px;">
-        <div class="col bg-white border border-dark">
-            <img src="https://www.senior-thailand.com/Content/images/logo-Color.png" style="width:160px;height:50px;">
+<div class="container-fluid position-absolute top-0 start-0 text-center custom-border landscape" style="height: 958px; background-color: #0D68D0; ">
+    <div class="row" style="height: 70px;">
+        <div class="col bg-white custom-border">
+            <img src="https://www.senior-thailand.com/Content/images/logo-Color.png" style="width: 160px; height: 50px; margin-top: 8px; ">
         </div>
-        <div class="col-8 bg-white border border-dark">
-            <h1>DELIVERY</h1>
+        <div class="col-8 bg-white custom-border">
+            <center>
+                <select class="form-control" name="title" id="title" style="width: auto; color: black; font-size: 35px; font-weight: bold; font-family: Tahoma;">
+                    <option value="Delivery" style="text-align:center; color:black;">DELIVERY</option>
+                    <option value="Productivity" style="text-align: center; color: black;">PRODUCTIVITY</option>
+                </select>
+            </center>
         </div>
-        <div class="col bg-white border border-dark">
-            <img src="https://lh6.googleusercontent.com/wdupdmQPUahdQ1gR72L6OlKBzig2h939Ah4LIkFaLEuq24C6Ej69EMW0KB_0P4PbfVJMsQ=w16383" style="width:100px;height:50px;">
+        <div class="col bg-white custom-border">
+            <img src="~/Image/EmbeddedImage.png" style="width: 100px; height: 50px; margin-top: 7px; ">
         </div>
     </div>
-    <div class="row w-90 p-3 " style="background-color: #0A62C6; height: 903px; margin-top: 3px; margin-left: 8px; ">
-        <div class="col bg-white border border-dark" style="height: 795px; border-radius: 10px; margin-top: 11px;">
-            <div class="container-lg" style="display: flex; flex-direction: column; align-items: flex-start; margin-top: 12px;">
-                <h5 class="font-weight-bold" style="margin-left: 7px;">Key: On Time Delivery</h5>
+    <div class="row w-90 p-3 " style="background-color: #0D68D0; height: 880px; width: 1820px; margin-top: 3px; margin-left: 7px; ">
+        <div class="col-5 bg-white custom-border" style="height: 795px; border-radius: 10px;  margin-top: 11px;">
+            <div class="col" style="display: flex; width: 550px; flex-direction: column; align-items: flex-start; margin-top: 12px; ">
+                <h5 class="font-weight-bold" style="margin-left: 7px;"><span id="key"></span></h5>
                 <div style="display: flex; align-items: center;">
                     <h5 class="font-weight-bold" style="margin-right: 5px; margin-left: 7px;">Year: &nbsp;</h5>
-                    <select class="form-control" name="Year" id="Year" style="width: 80px;">
-                        <option value="" disabled selected>Year</option>
-                        <option value="2022">2022</option>
-                        <option value="2023">2023</option>
+                    <select class="selectpicker" data-live-search="true" name="Year" id="Year" style="width: 80px;">
                     </select>
                 </div>
             </div>
-            <div class="col " style=" height: 755px; margin-top: 1px; ">
-                    <div style=" height: 695px;" id="containerchart"></div>
+            <div class="container-fluid">
+                <div id="bindShowData1">
+                </div>
             </div>
         </div>
-        <div class="col" style="background-color: #0A62C6; height: 860px; ">
-            <div class="row" style=" margin-left: 12px; margin-right: 8px; height: 32px; width: 862px; margin-top: 11px;">
-                <div class="col-6 bg-white border border-dark" style="height: 32px;">
-                    <h5 class="font-weight-bold" style="margin-top: 3px;  ">TAT-IT ( Target: > 80% )</h5>
+        <div class="col-6" style="background-color: #0D68D0; height: 803px; ">
+            <div class="row" style=" margin-left: 15px; margin-right: 8px; height: 32px; width: 662px; margin-top: 11px;">
+                <div class="col-6 bg-white custom-border" style="height: 32px;">
+                    <h5 class="font-weight-bold" style="margin-top: 3px;  "><span id="target"></span></h5>
                 </div>
-                <div class="col-3 ">
+                <div class="col">
                 </div>
-                <div class="col-3 bg-white border border-dark" style="height: 32px;">
-                    <p style="font-size: 0.84em; font-weight: bold; margin-top: 6px; ">Date : <span id="date"></span></p>
+                <div class="col-3 bg-white custom-border" style="height: 32px;">
+                    <p style="font-size: 0.90em; font-weight: bold; margin-top: 2px; ">Date : <span id="date"></span></p>
                 </div>
             </div>
             <div class="container-fluid">
@@ -52,19 +55,21 @@
             </div>
         </div>
     </div>
-    <div class="row" style="align-content: center; margin-top: -65px; margin-left: 25px; width: 1200px;">
+    <div class="row" style="align-content: center; margin-top: -45px; margin-left: 24px; width: 1400px;">
 
-        <div class="col-2 bg-white border border-dark">
+        <div class="col-2 bg-white custom-border">
             AREA :
         </div>
-        <div class="col-3 bg-white border border-dark">
+        <div class="col-3 bg-white custom-border" style="color:forestgreen;">
+            information Technology
         </div>
         <div class="col-1 ">
         </div>
-        <div class="col-2 bg-white border border-dark">
+        <div class="col-2 bg-white custom-border">
             OWNER :
         </div>
-        <div class="col-3 bg-white border border-dark">
+        <div class="col-3 bg-white custom-border" style="color:forestgreen;">
+            Anat S, Wuttipong B, Chaiwat C
         </div>
     </div>
 </div>
@@ -76,73 +81,288 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 @section Scripts {
     <script>
-
-
         $(document).ready(function () {
+
             let today = new Date().toISOString().slice(0, 10);
             let [year, month, day] = today.split('-');
             let formattedDate = `${day}-${month}-${year}`;
             document.getElementById("date").innerHTML = formattedDate;
+            /*document.getElementById("target").innerHTML = "TAT - IT(Target: <= 25 )";*/
+            let toDate = new Date();
+            let formattedYear = toDate.getFullYear();
+            let formattedMonth = toDate.toLocaleString('en-GB', { month: 'short' });
+            //console.log(formattedYear)
+            //console.log(formattedMonth)
+            var title = $.trim($('#title').val());
 
-            $("#bindShowData2").load(`/Home/IndexTable2` + '?year=2023', function (statusTxt) {
-                if (statusTxt == "error") {
-                    alert("Error occurred during the process. Please contact the administrator");
+            /*Year*/
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetYear",
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    var s = '';
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].year + '">' + data[i].year + '</option>';
+                    }
+                    $("#Year").html(s);
+                    $("#Year").val(formattedYear);
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
                 }
-            });
+            })
+            /* TargetYear*/
 
-            //$("#bindShowData2").load(`/Home/IndexChart3?year=2023&mmonth=Sep`, function (statusTxt) {
-            //    if (statusTxt == "error") {
-            //        alert("Error occurred during the process. Please contact the administrator");
+           
+            //$.ajax({
+            //    type: "GET",
+            //    url: `/Home/GetTargetYear?yyear=${formattedYear}`,
+            //    dataType: "json",
+            //    data: {},
+            //    success: function (result) {
+            //        /*  console.log(result); */
+            //        otd = result[0].otdTarget;
+            //        tat = result[0].tatTarget;
+            //        /*console.log(otd, tat);*/
+            //        if (title == "Productivity") {
+            //            document.getElementById("target").innerHTML = "TAT - IT(Target: <= " + tat + " )";
+            //            document.getElementById("key").innerHTML = "Key: Turnaround Time";
+            //            $("#bindShowData1").load(`/Home/ChartResultTargetTAT?year=${formattedYear}&mmonth=${formattedMonth}`, function (statusTxt) {
+            //                if (statusTxt == "error") {
+            //                    alert("Error occurred during the process. Please contact the administrator");
+            //                }
+            //            });
+            //            $("#bindShowData2").load(`/Home/ChartTAT?year=${formattedYear}&mmonth=${formattedMonth}`, function (statusTxt) {
+            //                if (statusTxt == "error") {
+            //                    alert("Error occurred during the process. Please contact the administrator");
+            //                }
+            //            });
+            //        } else {
+            //            document.getElementById("target").innerHTML = "OTD - IT(Target: >= " + otd + " % )";
+            //            document.getElementById("key").innerHTML = "Key: On Time Delivery";
+            //            $("#bindShowData1").load(`/Home/ChartResultTargetOTD?year=${formattedYear}&mmonth=${formattedMonth}&target=${otd}`, function (statusTxt) {
+            //                if (statusTxt == "error") {
+            //                    alert("Error occurred during the process. Please contact the administrator");
+            //                }
+            //            });
+
+            //            $("#bindShowData2").load(`/Home/ChartOTD?year=${formattedYear}&mmonth=${formattedMonth}&target=${otd}`, function (statusTxt) {
+            //                if (statusTxt == "error") {
+            //                    alert("Error occurred during the process. Please contact the administrator");
+            //                }
+            //            });
+            //        }
+            //    },
+            //    error: function (data) {
+            //        alert("The System has some problem..please try it again.");
             //    }
-            //});
+            //})
+
+        });
+        //function GetYear(callBack) {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: `/Home/GetTargetYear?yyear=${formattedYear}`,
+        //        dataType: "json",
+        //        data: {},
+        //        success: function (result) {
+        //            callBack(result);
+        //        },
+        //        error: function (data) {
+        //            alert("The System has some problem..please try it again.");
+        //        }
+
+
+        //    });
+        //}
+
+        $("#Year").change(function () {
+
+            let toDate2 = new Date();
+            let formattedMonth2 = toDate2.toLocaleString('en-GB', { month: 'short' });
+
+            var year2 = $.trim($('#Year').val());
+            var title2 = $.trim($('#title').val());
+            $.ajax({
+                type: "GET",
+                url: `/Home/GetTargetYear?yyear=${year2}`,
+                dataType: "json",
+                data: {},
+                success: function (result) {
+                    /*  console.log(result); */
+                    otd = result[0].otdTarget;
+                    tat = result[0].tatTarget;
+                    /*console.log(otd, tat);*/
+
+
+                    if (title2 == "Productivity") {
+                        document.getElementById("target").innerHTML = "TAT - IT(Target: <= " + tat + " )";
+                        document.getElementById("key").innerHTML = "Key: Turnaround Time";
+
+
+                        $("#bindShowData1").load(`/Home/ChartResultTargetTAT?year=${year2}&mmonth=${formattedMonth2}`, function (statusTxt) {
+                            if (statusTxt == "error") {
+                                alert("Error occurred during the process. Please contact the administrator");
+                            }
+                        });
+                        $("#bindShowData2").load(`/Home/ChartTAT?year=${year2}&mmonth=${formattedMonth2}`, function (statusTxt) {
+                            if (statusTxt == "error") {
+                                alert("Error occurred during the process. Please contact the administrator");
+                            }
+                        });
+
+                    } else {
+
+                        document.getElementById("target").innerHTML = "OTD - IT(Target: >= " + otd + " % )";
+                        document.getElementById("key").innerHTML = "Key: On Time Delivery";
+
+                        $("#bindShowData1").load(`/Home/ChartResultTargetOTD?year=${year2}&mmonth=${formattedMonth2}&target=${otd}`, function (statusTxt) {
+                            if (statusTxt == "error") {
+                                alert("Error occurred during the process. Please contact the administrator");
+                            }
+                        });
+
+                        $("#bindShowData2").load(`/Home/ChartOTD?year=${year2}&mmonth=${formattedMonth2}&target=${otd}`, function (statusTxt) {
+                            if (statusTxt == "error") {
+                                alert("Error occurred during the process. Please contact the administrator");
+                            }
+                        });
+
+                    }
+
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                }
+            })
+
+
+
+
+        });
+
+        $("#title").change(function () {
+            let toDate3 = new Date();
+            let formattedYear3 = toDate3.getFullYear();
+            let formattedMonth3 = toDate3.toLocaleString('en-GB', { month: 'short' });
+            var title3 = $.trim($('#title').val());
+            var year3 = $.trim($('#Year').val());
+            let otd, tat;
+            $.ajax({
+                type: "GET",
+                url: `/Home/GetTargetYear?yyear=${year3}`,
+                dataType: "json",
+                data: {},
+                success: function (result) {
+                    /*  console.log(result); */
+                    otd = result[0].otdTarget;
+                    tat = result[0].tatTarget;
+                    /*console.log(otd, tat);*/
+                   
+                    
+                    if (title3 == "Productivity") {
+                        document.getElementById("target").innerHTML = "TAT - IT(Target: <= " + tat + " )";
+                        document.getElementById("key").innerHTML = "Key: Turnaround Time";
+                        
+                      
+                        $("#bindShowData1").load(`/Home/ChartResultTargetTAT?year=${year3}&mmonth=${formattedMonth3}`, function (statusTxt) {
+                            if (statusTxt == "error") {
+                                alert("Error occurred during the process. Please contact the administrator");
+                            }
+                        });
+                        $("#bindShowData2").load(`/Home/ChartTAT?year=${year3}&mmonth=${formattedMonth3}`, function (statusTxt) {
+                            if (statusTxt == "error") {
+                                alert("Error occurred during the process. Please contact the administrator");
+                            }
+                        });
+
+                    } else {
+                       
+                        document.getElementById("target").innerHTML = "OTD - IT(Target: >= " + otd + " % )";
+                        document.getElementById("key").innerHTML = "Key: On Time Delivery";
+                       
+                        $("#bindShowData1").load(`/Home/ChartResultTargetOTD?year=${year3}&mmonth=${formattedMonth3}&target=${otd}`, function (statusTxt) {
+                            if (statusTxt == "error") {
+                                alert("Error occurred during the process. Please contact the administrator");
+                            }
+                        });
+
+                        $("#bindShowData2").load(`/Home/ChartOTD?year=${year3}&mmonth=${formattedMonth3}&target=${otd}`, function (statusTxt) {
+                            if (statusTxt == "error") {
+                                alert("Error occurred during the process. Please contact the administrator");
+                            }
+                        });
+
+                    }
+
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                }
+            })
+
 
         });
         /*chart*/
-        Highcharts.chart('containerchart', {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: '',
-                align: 'left'
-            },
-            subtitle: {
-                text: '',
-                align: 'left'
-            },
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                crosshair: true,
-                accessibility: {
-                    description: 'month'
-                }
-            },
-            yAxis: {
-                min: 0, max: 10,
+        let toDate = new Date();
+        let formattedYear = toDate.getFullYear();
+        let formattedMonth = toDate.toLocaleString('en-GB', { month: 'short' });
+        var title = $.trim($('#title').val());
+        $.ajax({
+            type: "GET",
+            url: `/Home/GetTargetYear?yyear=${formattedYear}`,
+            dataType: "json",
+            data: {},
+            success: function (result) {
+                /*  console.log(result); */
+                otd2 = result[0].otdTarget;
+                tat2 = result[0].tatTarget;
+                let toDate4 = new Date();
+                let formattedYear4 = toDate4.getFullYear();
+                let formattedMonth4 = toDate4.toLocaleString('en-GB', { month: 'short' });
+                /*console.log(otd, tat);*/
+               
+           
+                if (title == "Productivity") {
+                    document.getElementById("target").innerHTML = "TAT - IT(Target: <= " + tat2 + " )";
+                    document.getElementById("key").innerHTML = "Key: Turnaround Time";
+                    
+                
+                    $("#bindShowData1").load(`/Home/ChartResultTargetTAT?year=${formattedYear4}&mmonth=${formattedMonth4}`, function (statusTxt) {
+                        if (statusTxt == "error") {
+                            alert("Error occurred during the process. Please contact the administrator");
+                        }
+                    });
+                    $("#bindShowData2").load(`/Home/ChartTAT?year=${formattedYear4}&mmonth=${formattedMonth4}`, function (statusTxt) {
+                        if (statusTxt == "error") {
+                            alert("Error occurred during the process. Please contact the administrator");
+                        }
+                    });
+                } else {
+                    document.getElementById("target").innerHTML = "OTD - IT(Target: >= " + otd2 + " % )";
+                    document.getElementById("key").innerHTML = "Key: On Time Delivery";
+                    $("#bindShowData1").load(`/Home/ChartResultTargetOTD?year=${formattedYear4}&mmonth=${formattedMonth4}&target=${otd2}`, function (statusTxt) {
+                        if (statusTxt == "error") {
+                            alert("Error occurred during the process. Please contact the administrator");
+                        }
+                    });
 
-                title: {
-                    text: ''
-                },
-                tickInterval: 1
-            },
-            tooltip: {
-                valueSuffix: 'target'
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
+                    $("#bindShowData2").load(`/Home/ChartOTD?year=${formattedYear4}&mmonth=${formattedMonth4}&target=${otd2}`, function (statusTxt) {
+                        if (statusTxt == "error") {
+                            alert("Error occurred during the process. Please contact the administrator");
+                        }
+                    });
                 }
             },
-            series: [
+            error: function (data) {
+                alert("The System has some problem..please try it again.");
+            }
+        })
 
-                {
-                    name: 'result under target',
-                    data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, , ,],
-                    color: '#E40D0D'
-                }
-            ]
-        });
+
+
 
 
 

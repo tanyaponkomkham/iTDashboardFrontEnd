@@ -1,0 +1,400 @@
+﻿<div class="col bg-white custom-border" style="height: 370px; width: 660px; margin-top: 8px;">
+    <div style="height: 367px;" id="containerchart2"></div>
+</div>
+<div class="col bg-white custom-border" style="height: 370px; width: 660px; margin-top: 11px; " id="Chart3">
+    <div style="height: 367px;" id="containerchart3"></div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        loadChart();
+
+
+    });
+     function loadChart() {
+            $.ajax({
+                type: "GET",
+                url:`/Home/IndexChart4?year=${`@TempData["Year2"]`}&target=${`@TempData["Target"]`}`,
+                dataType: "json",
+                data: {},
+                success: function (result) {
+                    BindChart(result, "Main");
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                }
+            }); 
+
+          $.ajax({
+            type: "GET",
+             url: `/Home/IndexChart5?year=${`@TempData["Year2"]`}&mmonth=${`@TempData["Month2"]`}&target=${`@TempData["Target"]`}`,
+            dataType: "json",
+            data: {},
+                success: function (result) {
+                    var monthColor = getMonthColor(`@TempData["Month2"]`);
+                    BindChart2(result, "Category", monthColor, `@TempData["Year2"]`);
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                },
+            })
+         function getMonthColor(month) {
+             switch (month) {
+                 case "Jan":
+                     return '#4169E1';
+                 case "Feb":
+                     return '#7B68EE';
+                 case "Mar":
+                     return '#1E90FF';
+                 case "Apr":
+                     return '#00BFFF';
+                 case "May":
+                     return '#87CEFA';
+                 case "Jun":
+                     return '#87CEEB';
+                 case "Jul":
+                     return '#AFEEEE';
+                 case "Aug":
+                     return '#6495ED';
+                 case "Sep":
+                     return '#0000FF';
+                 case "Oct":
+                     return '#0000CD';
+                 case "Nov":
+                     return '#00008B';
+                 case "Dec":
+                     return '#191970';
+                 default:
+                     return getRandColor(false, 2);
+             }
+         }
+
+    }
+
+    function BindChart(serie, name, color) {
+
+        var _data = [];
+        var _otdTarget = [];
+        for (var i in serie) {
+
+            var itm = {
+                name: (name == "Main" ? serie[i].sh_month : serie[i].sh_month),
+                y: (name == "Main" ? serie[i].otd : serie[i].otd),
+                target: serie[i].target,
+                chart: (name == "Main" ? 'Monthly' : 'Category'),
+                iyear: `@TempData["Year2"]`,
+                imonth: serie[i].sh_month,
+                drilldown: (name == "Main" ? true : false),
+
+            }
+
+            _data.push(itm);
+            _otdTarget.push(serie[i].target);
+
+        }
+
+        var lastColor;
+
+
+        Highcharts.chart('containerchart2', {
+            chart: {
+                type: 'column',
+                backgroundColor: '#FFFFFF',
+                borderColor: '#17202A',
+                borderWidth: 0,
+                className: 'dark-container',
+                plotBackgroundColor: '#F4F6F6',
+                plotBorderColor: '#A9CCE3',
+                plotBorderWidth: 1,
+                events: {
+                }
+            },
+            title: {
+                text: 'OTD - IT ' + (name == "Main" ? '' : serie[i].sh_month) + ' (Target : >= ' + `@TempData["Target"]` + ' Calendar day)'
+            },
+            xAxis: {
+
+                type: 'category',
+
+                labels: {
+                    style: {
+                        color: 'black',
+                        fontWeight: 'bold',
+                        fontSize: '12px'
+
+                    }
+
+                },
+
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        fontSize: '15px',
+                        color: 'black'
+                    }
+                },
+
+            },
+            legend: {
+                itemStyle: {
+                    fontSize: '15px',
+                    font: '15pt Trebuchet MS, Verdana, sans-serif',
+                    color: '#8b8378'
+
+                }
+
+            },
+            yAxis: {
+                min: 0,
+                max: 100,
+                title: {
+                    text: 'Percent ( % )'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || '#0A0A09'
+                    }
+                },
+
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<b>{point.y} %</b>'
+            },
+            legend: {
+                enabled: true
+            },
+
+            plotOptions: {
+                series: {
+                    stacking: 'normal',
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: false
+                    },
+                    colorByPoint: true,
+                    point: {
+                        events: {
+                            click: function (e) {
+                                {
+                                    //Call table
+                                    if (e.point.chart == 'Monthly') {
+
+                                        GetCategoryChart(e.point.iyear, e.point.name, e.point.itarget, e.point.color, e.srcElement.attributes.fill.nodeValue);
+
+                                        //console.log(color);
+                                        //console.log(e);
+                                        //console.log(e.srcElement.attributes.fill.nodeValue);
+                                        //onClick(e.point.name, this.name, e.point.label);
+                                    }
+                                    else if (e.point.chart == 'Category') {
+
+                                        onClick(e.point.name, e.point.imonth, e.point.iyear);
+                                        //console.log(e.point.name);
+                                        // console.log(e.point.imonth);
+                                        //console.log(e.point.iyear);
+                                    }
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            credits: {
+                "enabled": true
+            },
+            series: [{
+                type: 'column',
+                name: 'OTD',
+                pointWidth: 30,
+                colors: [
+                    '#4169E1', '#7B68EE', '#1E90FF', '#00BFFF', '#87CEFA', '#87CEEB',
+                    '#AFEEEE', '#6495ED', '#0000FF', '#0000CD', '#00008B', '#191970'
+                ],
+                colorByPoint: true,
+                data: _data,
+
+                borderWidth: 2,
+
+
+            }, {
+                type: 'spline',
+                name: 'Target',
+                data: _otdTarget,//_otdTarget,
+                marker: {
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                }
+            }]
+
+
+
+        });
+
+
+        function GetCategoryChart(year, name, target, color) {
+           
+            $.ajax({
+            type: "GET",
+                url: `/Home/IndexChart5?year=` + year + `&mmonth=` + name,
+            dataType: "json",
+            data: {},
+                success: function (result) {
+
+                    BindChart2(result, "Category", color, year, target);
+                  
+                },
+                error: function (data) {
+                    alert("The System has some problem..please try it again.");
+                },
+            })
+        }
+    }
+
+    function BindChart2(serie, name, color, year, target) {
+    
+        var _data = [];
+        var _otdTarget = [];
+        for (var i in serie) {
+            var itm = {
+                name: (name == "Main" ? serie[i].sh_month : serie[i].cate),
+                y: (name == "Main" ? serie[i].otd : serie[i].otd),
+                target: 80,
+                chart: (name == "Main" ? 'Monthly' : 'Category'),
+                iyear: year,
+                imonth: serie[i].sh_month,
+                drilldown: (name == "Main" ? true : false),
+                color: color
+            }
+
+            _data.push(itm);
+            _otdTarget.push(80);
+
+        }
+
+   
+
+        Highcharts.chart('containerchart3', {
+            chart: {
+                type: 'column',
+                backgroundColor: '#FFFFFF',
+                borderColor: '#17202A',
+                borderWidth: 0,
+                className: 'dark-container',
+                plotBackgroundColor: '#F4F6F6',
+                plotBorderColor: '#A9CCE3',
+                plotBorderWidth: 1,
+                events: {
+                }
+            },
+            title: {
+                text: 'OTD - IT ' + (name == "Main" ? '' : serie[i].sh_month) + ' (Target : >= '  + `@TempData["Target"]` + ' Calendar day)'
+            },
+            xAxis: {
+                type: 'category',
+
+                labels: {
+                    style: {
+                        color: 'black',
+                        fontWeight: 'bold',
+                        fontSize: '12px'
+
+                    }
+
+                },
+
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        fontSize: '15px',
+                        color: 'black'
+                    }
+                },
+
+            },
+            legend: {
+                itemStyle: {
+                    fontSize: '15px',
+                    font: '15pt Trebuchet MS, Verdana, sans-serif',
+                    color: '#8b8378'
+
+                }
+
+            },
+            yAxis: {
+                min: 0,
+                max: 100,
+                title: {
+                    text: 'Percent ( % )'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || '#0A0A09'
+                    }
+                },
+
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<b>{point.y} %</b>'
+            },
+            legend: {
+                enabled: true
+            },
+
+            plotOptions: {
+                series: {
+                    stacking: 'normal',
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: false
+                    },
+                    colorByPoint: true,
+
+                }
+            },
+            credits: {
+                "enabled": true
+            },
+            series: [{
+                type: 'column',
+                name: 'OTD',
+                //colors: [
+                //    '#4169E1', '#7B68EE', '#1E90FF', '#00BFFF', '#87CEFA', '#87CEEB',
+                //    '#AFEEEE', '#6495ED', '#0000FF', '#0000CD', '#00008B', '#191970'
+                //],
+                /*colorByPoint: true,*/
+                pointWidth: 30,
+                data: _data,
+                borderWidth: 2,
+
+
+            }, {
+                type: 'spline',
+                name: 'Target',
+                data: _otdTarget,//_otdTarget,
+                marker: {
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                }
+            }]
+
+
+
+
+        });
+
+
+
+    }
+</script>

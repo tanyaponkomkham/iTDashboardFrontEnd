@@ -7,10 +7,12 @@ namespace iTDashboardFrontEnd.ViewModels
 {
 	public class OTDView
 	{
+       
 		public string yyear { get; set; }
 		public string JobYear { get; set; }
 		public decimal? mmonth { get; set; }
 		public string sh_month { get; set; }
 		public decimal? otd { get; set; }
+		public int? target { get; set; } = 80;
 	}
 }
