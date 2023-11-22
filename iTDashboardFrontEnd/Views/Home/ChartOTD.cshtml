@@ -1,7 +1,7 @@
-﻿<div class="col bg-white custom-border" style="height: 370px; width: 660px; margin-top: 8px;">
+﻿<div class="col bg-white custom-border" style="height: 370px; width: 670px; margin-top: 8px;">
     <div style="height: 367px;" id="containerchart2"></div>
 </div>
-<div class="col bg-white custom-border" style="height: 370px; width: 660px; margin-top: 11px; " id="Chart3">
+<div class="col bg-white custom-border" style="height: 370px; width: 670px; margin-top: 11px; " id="Chart3">
     <div style="height: 367px;" id="containerchart3"></div>
 </div>
 <script>
@@ -113,9 +113,7 @@
                 text: 'OTD - IT ' + (name == "Main" ? '' : serie[i].sh_month) + ' (Target : >= ' + `@TempData["Target"]` + ' Calendar day)'
             },
             xAxis: {
-
                 type: 'category',
-
                 labels: {
                     style: {
                         color: 'black',
@@ -180,22 +178,15 @@
                         events: {
                             click: function (e) {
                                 {
-                                    //Call table
                                     if (e.point.chart == 'Monthly') {
 
                                         GetCategoryChart(e.point.iyear, e.point.name, e.point.itarget, e.point.color, e.srcElement.attributes.fill.nodeValue);
 
-                                        //console.log(color);
-                                        //console.log(e);
-                                        //console.log(e.srcElement.attributes.fill.nodeValue);
-                                        //onClick(e.point.name, this.name, e.point.label);
                                     }
                                     else if (e.point.chart == 'Category') {
 
                                         onClick(e.point.name, e.point.imonth, e.point.iyear);
-                                        //console.log(e.point.name);
-                                        // console.log(e.point.imonth);
-                                        //console.log(e.point.iyear);
+                                       
                                     }
 
 
@@ -232,9 +223,6 @@
                     fillColor: 'white'
                 }
             }]
-
-
-
         });
 
 
@@ -296,16 +284,18 @@
             title: {
                 text: 'OTD - IT ' + (name == "Main" ? '' : serie[i].sh_month) + ' (Target : >= '  + `@TempData["Target"]` + ' Calendar day)'
             },
+
             xAxis: {
                 type: 'category',
-
+              
                 labels: {
                     style: {
                         color: 'black',
                         fontWeight: 'bold',
-                        fontSize: '12px'
-
-                    }
+                        fontSize: '12px',
+                        
+                    },
+                   
 
                 },
 
@@ -324,7 +314,6 @@
                     fontSize: '15px',
                     font: '15pt Trebuchet MS, Verdana, sans-serif',
                     color: '#8b8378'
-
                 }
 
             },
@@ -343,6 +332,7 @@
                 },
 
             },
+            
             tooltip: {
                 headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
                 pointFormat: '<b>{point.y} %</b>'
@@ -365,19 +355,13 @@
             credits: {
                 "enabled": true
             },
+
             series: [{
                 type: 'column',
                 name: 'OTD',
-                //colors: [
-                //    '#4169E1', '#7B68EE', '#1E90FF', '#00BFFF', '#87CEFA', '#87CEEB',
-                //    '#AFEEEE', '#6495ED', '#0000FF', '#0000CD', '#00008B', '#191970'
-                //],
-                /*colorByPoint: true,*/
                 pointWidth: 30,
                 data: _data,
                 borderWidth: 2,
-
-
             }, {
                 type: 'spline',
                 name: 'Target',
@@ -388,9 +372,6 @@
                     fillColor: 'white'
                 }
             }]
-
-
-
 
         });
 

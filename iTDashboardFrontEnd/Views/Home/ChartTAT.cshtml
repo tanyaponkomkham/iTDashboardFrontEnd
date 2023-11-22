@@ -1,7 +1,7 @@
-﻿<div class="col bg-white custom-border" style="height: 370px; width: 660px; margin-top: 8px;">
+﻿<div class="col bg-white custom-border" style="height: 370px; width: 670px; margin-top: 8px;">
     <div style="height: 367px;" id="containerchart2"></div>
 </div>
-<div class="col bg-white custom-border" style="height: 370px; width: 660px; margin-top: 11px; " id="Chart3">
+<div class="col bg-white custom-border" style="height: 370px; width: 670px; margin-top: 11px; " id="Chart3">
     <div style="height: 367px;" id="containerchart3"></div>
 </div>
 <script>
@@ -145,7 +145,7 @@
                 min: 0,
                 max: 50,
                 title: {
-                    text: 'Turnaround time of TSD(Calendar Day)'
+                    text: 'Turnaround time of IT(Calendar Day)'
                 },
                 stackLabels: {
                     enabled: true,
@@ -295,7 +295,6 @@
             },
             xAxis: {
                 type: 'category',
-
                 labels: {
                     style: {
                         color: 'black',
@@ -321,7 +320,6 @@
                     fontSize: '15px',
                     font: '15pt Trebuchet MS, Verdana, sans-serif',
                     color: '#8b8378'
-
                 }
 
             },
@@ -329,7 +327,7 @@
                 min: 0,
                 max: 50,
                 title: {
-                    text: 'Turnaround time of TSD(Calendar Day)'
+                    text: 'Turnaround time of IT(Calendar Day)'
                 },
                 stackLabels: {
                     enabled: true,
@@ -369,12 +367,8 @@
                 type: 'column',
                 name: 'TAT',
                 pointWidth: 30,
-                /*colorByPoint: true,*/
                 data: _data,
-
                 borderWidth: 2,
-
-
             }, {
                 type: 'spline',
                 name: 'Target',
@@ -385,9 +379,6 @@
                     fillColor: 'white'
                 }
             }]
-
-
-
 
         });
 

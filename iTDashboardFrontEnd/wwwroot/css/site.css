@@ -118,18 +118,22 @@ body {
     min-width: 210px;
     max-width: 220px;
 }
-
+.highcharts-figure3,
+.highcharts-data-table table {
+    min-width: 210px;
+    max-width: 220px;
+}
 #containerchart {
     height: 750px;
     width: 640px;
 }
 #containerchart2 {
     height: 210px;
-    width: 625px;
+    width: 645px;
 }
 #containerchart3 {
-    height: 210px;
-    width: 625px;
+    height: 230px;
+    width: 645px;
 }
 .highcharts-data-table table {
     font-family: Verdana, sans-serif;
@@ -171,3 +175,4 @@ body {
 .custom-border {
     border: 2px solid #000; 
 }
+
